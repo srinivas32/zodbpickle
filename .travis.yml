@@ -59,6 +59,50 @@ jobs:
       os: osx
       language: generic
       env: TERRYFY_PYTHON='macpython 3.8.0'
+      # power jobs added on here.
+    - name: 64-bit manylinux wheels (all Pythons)
+      services: docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
+      install: docker pull $DOCKER_IMAGE
+      script: bash .manylinux.sh
+      arch: -ppc64le
+    - name: 32-bit manylinux wheels (all Pythons)
+      services: docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux2010_i686 PRE_CMD=linux32
+      install: docker pull $DOCKER_IMAGE
+      script: bash .manylinux.sh
+      arch: ppc64le
+
+    # It's important to use 'macpython' builds to get the least
+    # restrictive wheel tag. It's also important to avoid
+    # 'homebrew 3' because it floats instead of being a specific version.
+    - name: Python 2.7 wheels for MacOS
+      os: osx
+      language: generic
+      # We require at least 2.7.15 to upload wheels.
+      # See https://github.com/zopefoundation/BTrees/issues/113
+      env: TERRYFY_PYTHON='macpython 2.7.17'
+      arch: ppc64le
+    - name: Python 3.5 wheels for MacOS
+      os: osx
+      language: generic
+      env: TERRYFY_PYTHON='macpython 3.5'
+      arch: ppc64le
+    - name: Python 3.6 wheels for MacOS
+      os: osx
+      language: generic
+      env: TERRYFY_PYTHON='macpython 3.6.1'
+      arch: ppc64le
+    - name: Python 3.7 wheels for MacOS
+      os: osx
+      language: generic
+      env: TERRYFY_PYTHON='macpython 3.7.0'
+      arch: ppc64le
+    - name: Python 3.8 wheels for MacOS
+      os: osx
+      language: generic
+      env: TERRYFY_PYTHON='macpython 3.8.0'
+      arch: ppc64le
 
 before_install:
   - |
